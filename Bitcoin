@@ -1,0 +1,56 @@
+using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using System;
+using System.Threading;
+using Xunit;
+using Assert = Xunit.Assert;
+
+namespace DemoTest
+{
+    class Demo
+    {
+        private const object How;
+        public readonly ISearchContext driver;
+
+
+
+        public DemoTest(ISearchContext root)
+        {
+            driver = root;
+            NewMethod();
+        }
+
+        private void NewMethod()
+        {
+            object p = PageFactory.InitElements(driver,
+                this);
+        }
+
+        [FindsBy(How = How1.Xpath, Using = "")]
+        private IWebElement demoButton;
+        [FindsBy(How = How1.Xpath, Using = "")]
+        public IWebElement PleaseWaitMessageField;
+        [FindsBy(How = How1.Xpath, Using = "")]
+        public IWebElement WaitMessageField;
+
+        public object PageFactory { get; }
+        public IWebElement DemoButton { get => demoButton; set => demoButton = value; }
+
+        public static object How1 => How;
+
+        [Test]
+        public void DemoTestI() {
+            DemoButton.Click();
+            Assert.Equal((System.Collections.Generic.IEnumerable<char>)PleaseWaitMessageField, "Please Wait...");
+            Assert.Equal((System.Collections.Generic.IEnumerable<char>)WaitMessageField, "Wait...");
+            Thread.Sleep(1000);
+            DemoButton.Click();
+            Assert.Equal((System.Collections.Generic.IEnumerable<char>)WaitMessageField, "Wait...");
+
+
+        }
+
+
+
+
